@@ -1,24 +1,33 @@
 package CookingTime.Service.Implementation;
 
+import CookingTime.DTO.Favorite;
 import CookingTime.Entity.FavoriteRecipes;
 import CookingTime.Entity.Recipes;
+import CookingTime.Entity.Regularuser;
 import CookingTime.Entity.Users;
 import CookingTime.Repository.FavoriteRecipesRepository;
 import CookingTime.Repository.RecipesRepository;
+import CookingTime.Repository.RegularuserRepository;
 import CookingTime.Repository.UsersRepository;
 import CookingTime.Service.Interface.CookingTimeInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CookingTimeImple implements CookingTimeInterface{
 
     @Autowired
     public RecipesRepository recipesRepository;
+    @Autowired
    public FavoriteRecipesRepository favoriteRecipesRepository;
+    @Autowired
     public UsersRepository usersRepository;
+
+    @Autowired
+    public RegularuserRepository regularuserRepository;
 
     @Override
     public String saveRecipes (Recipes R){
@@ -37,19 +46,20 @@ public class CookingTimeImple implements CookingTimeInterface{
         return "Record  Add";
     }
     @Override
-    public List<Recipes> getAllRecipes() {
+    public List<Recipes> getRecipesList() {
         try {
             return recipesRepository.findAll();
         } catch (Exception c) {
             System.out.println("Failed to fetch the data: " + c.getMessage());
-            return null;}
+            return null;
+        }
     }
     @Override
     public String deleterecipeid(Integer recipeid) {
-        try{ recipesRepository.deleteById(recipeid);}
+        try{ recipesRepository.deleteById(recipeid);
+        return "Recipe with " + recipeid + "deleted";}
         catch (Exception b){ System.out.println("An error occurred while deleting the recipe record " + b.getMessage());
             return null;}
-        return "Record deleted";
     }
 
     @Override
@@ -61,9 +71,15 @@ public class CookingTimeImple implements CookingTimeInterface{
 
 
     @Override
-    public String saveFavorite( FavoriteRecipes F){
-
-        try{ favoriteRecipesRepository.save(F);}
+    public String saveFavorite( Favorite F){
+        Optional<Users> userReg = usersRepository.findById(F.getUserid());
+        Optional<Recipes>recipes =recipesRepository.findById(F.getRecipesid());
+        System.out.println(F.getUserid());
+        System.out.println(F.getRecipesid());
+        FavoriteRecipes fr = new FavoriteRecipes(userReg.get(), recipes.get());
+        try{
+            favoriteRecipesRepository.save(fr);
+        }
         catch (Exception l){ System.out.println("An error occurred while creating the record "+ l.getMessage());
             return null;}
         return "Record  Add";

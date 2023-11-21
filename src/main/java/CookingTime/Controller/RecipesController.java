@@ -1,5 +1,6 @@
 package CookingTime.Controller;
 
+import CookingTime.DTO.Favorite;
 import CookingTime.Entity.FavoriteRecipes;
 import CookingTime.Entity.Recipes;
 import CookingTime.Entity.Users;
@@ -24,9 +25,9 @@ public class RecipesController {
     @PostMapping("/storeUser")
     public String saveUser(@RequestBody Users U) {return cookingTimeImple.saveUser(U);
     }
-    @GetMapping("/Recipes")
-    public List<Recipes> Recipes(){
-        return cookingTimeImple.getAllRecipes();
+    @GetMapping("/recipesList")
+    public List<Recipes> getRecipesList() {
+        return cookingTimeImple.getRecipesList();
     }
     @DeleteMapping ("/delete/{recipeid}")
     public String deleterecipeid(@PathVariable Integer recipeid)
@@ -39,12 +40,12 @@ public class RecipesController {
         return cookingTimeImple.updateRecipes(recipesid);
     }
     @PostMapping("/storeFavorite")
-    public String saveFavorite(@RequestBody FavoriteRecipes F )
+    public String saveFavorite(@RequestBody Favorite F )
     {
         return cookingTimeImple.saveFavorite(F);
     }
      @GetMapping("/Favoriterecipes")
-    public List<FavoriteRecipes> favoriteRecipes (){
+    public List<FavoriteRecipes> favoriteRecipesList (){
          return cookingTimeImple.getAllFavoriterecipes();
     }
 

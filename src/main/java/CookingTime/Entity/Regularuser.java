@@ -12,9 +12,8 @@ import java.util.Set;
 @Data
 
 public class Regularuser extends Users {
-    @OneToMany(targetEntity = FavoriteRecipes.class,cascade = CascadeType.ALL)
-    @JoinColumn(name="ru_fk",referencedColumnName = "userid")
-    private Set<FavoriteRecipes> favorit;
+    @OneToMany (mappedBy = "regularuser", cascade = CascadeType.ALL)
+    private List<FavoriteRecipes> U;
 
 }
 
