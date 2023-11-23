@@ -12,7 +12,6 @@ import java.util.Set;
 
 @Entity
 @Data
-
 public class Recipes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +25,13 @@ public class Recipes {
 private List<FavoriteRecipes> R;
 
 
+    public Recipes(String title, String ingredients, String instructions) {
+        this.title = title;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+    }
+
+    public Recipes() {
+
+    }
 }
